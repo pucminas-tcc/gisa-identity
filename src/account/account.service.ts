@@ -23,11 +23,10 @@ export class AccountService {
     });
   }
 
-  async account(
-    accountWhereUniqueInput: Prisma.AccountWhereUniqueInput,
-  ): Promise<Account | null> {
+  async account(accountWhereUniqueInput: Prisma.AccountWhereUniqueInput) {
     return this.prisma.account.findUnique({
       where: accountWhereUniqueInput,
+      select: { password: true, id: true, email: true },
     });
   }
 
@@ -37,7 +36,7 @@ export class AccountService {
     cursor?: Prisma.AccountWhereUniqueInput;
     where?: Prisma.AccountWhereInput;
     orderBy?: Prisma.AccountOrderByWithRelationInput;
-  }): Promise<Account[]> {
+  }) {
     const { skip, take, cursor, where, orderBy } = params;
     return this.prisma.account.findMany({
       skip,
@@ -45,23 +44,31 @@ export class AccountService {
       cursor,
       where,
       orderBy,
+      select: { password: false, id: true, email: true },
     });
   }
 
   async update(params: {
     where: Prisma.AccountWhereUniqueInput;
     data: Prisma.AccountUpdateInput;
-  }): Promise<Account> {
+  }) {
     const { where, data } = params;
+
+    if (data.password) {
+      data.password = await hash(data.password);
+    }
+
     return this.prisma.account.update({
       data,
       where,
+      select: { password: false, id: true, email: true },
     });
   }
 
-  async delete(where: Prisma.AccountWhereUniqueInput): Promise<Account> {
+  async delete(where: Prisma.AccountWhereUniqueInput) {
     return this.prisma.account.delete({
       where,
+      select: { password: false, id: true, email: true },
     });
   }
 
