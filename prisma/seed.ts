@@ -6,7 +6,11 @@ const prisma = new PrismaClient();
 async function getAccountData(): Promise<Prisma.AccountCreateInput[]> {
   return [
     {
-      email: 'gisa@pucminas.com.br',
+      email: 'associate@pucminas.com.br',
+      password: await argon2.hash('123pucminas'),
+    },
+    {
+      email: 'partner@pucminas.com.br',
       password: await argon2.hash('123pucminas'),
     },
   ];
