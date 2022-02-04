@@ -10,36 +10,36 @@ export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
   @MessagePattern({ cmd: 'account.create' })
-  create(payload: any): Promise<Account> {
+  private create(payload: any): Promise<Account> {
     this.logger.log(payload);
     return this.accountService.create(payload);
   }
 
   @MessagePattern({ cmd: 'account.update' })
-  update(payload: any) {
+  private update(payload: any) {
     const { id } = payload;
     return this.accountService.update({ where: { id }, data: payload });
   }
 
   @MessagePattern({ cmd: 'account.remove' })
-  remove(payload: any) {
+  private remove(payload: any) {
     const { id } = payload;
     return this.accountService.delete({ id });
   }
 
   @MessagePattern({ cmd: 'account.list' })
-  list(payload: any) {
+  private list(payload: any) {
     const { id } = payload;
     return this.accountService.account({ id });
   }
 
   @MessagePattern({ cmd: 'account.all' })
-  all(payload: any) {
+  private all(payload: any) {
     return this.accountService.accounts(payload);
   }
 
   @MessagePattern({ cmd: 'validate' })
-  validate(payload: any) {
+  private validate(payload: any) {
     return this.accountService.validate(payload);
   }
 }

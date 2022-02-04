@@ -25,7 +25,7 @@ async function main() {
     const plan = await prisma.account.create({
       data: u,
     });
-    console.log(`Created plan '${plan.email}' with id: ${plan.id}`);
+    console.log(`Created account '${plan.email}' with id: ${plan.id}`);
   }
   console.log(`Seeding finished.`);
 }
